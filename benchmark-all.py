@@ -19,7 +19,9 @@ for i in range(1000):
                 c_result[i] = c_result[i] * (a[i] + b[i])
                 c_result[i] = c_result[i] * (a[i] / 2.0)
 time2 = time()
-print("Execution time of test without OpenCL: ", time2 - time1, "s")
+print("=============================================================")
+print("\tSingle Python thread without OpenCL")
+print("\033[92m\nExecution time of test: {:0.8f} seconds\033[0m\n\n".format( time2 - time1))
 
 
 for platform in cl.get_platforms():
@@ -66,7 +68,7 @@ for platform in cl.get_platforms():
         exec_evt.wait()
         elapsed = 1e-9 * (exec_evt.profile.end - exec_evt.profile.start)
 
-        print("Execution time of test: %g s" % elapsed)
+        print("\033[92m\nExecution time of test: {:0.8f} seconds\033[0m\n\n".format(elapsed))
 
         c = numpy.empty_like(a)
         cl.enqueue_read_buffer(queue, dest_buf, c).wait()
@@ -75,6 +77,6 @@ for platform in cl.get_platforms():
                 if c[i] != c_result[i]:
                         error = 1
         if error:
-                print("Results doesn't match!!")
+                print("\033[91mResults doesn't match!!\033[0m")
         else:
-                print("Results OK")
+                print("\033[92mResults OK\033[0m")
