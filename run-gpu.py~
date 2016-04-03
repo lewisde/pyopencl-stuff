@@ -41,9 +41,11 @@ def clfunc(device, kern):
     elapsed = 1e-9 * (exec_evt.profile.end - exec_evt.profile.start)
  #   print(elapsed)
     return elapsed
+
+
 start_time = time()
 start_str = strftime("%a, %d %b %Y %H:%M:%S", gmtime())
-print('Start time: {}, run from {} to {}'.format(start_str, sys.argv[1], sys.argv[2]))
+print('Start time: {}, run from {} to {} by {}'.format(start_str, sys.argv[1], sys.argv[2]), step)
 
 if len(sys.argv) == 4:
     step = int(sys.argv[3])
@@ -61,12 +63,13 @@ for i in range(int(sys.argv[1]), int(sys.argv[2]), step):
     kernel3 = ";i++){c[gid] = a[gid] + b[gid];c[gid] = c[gid]* (a[gid] + b[gid]);c[gid] = c[gid] * a[gid] / 2;}}}"
     kernel = kernel1 + str(i) + kernel2 + str(i) + kernel3
 
-    run.append(pfunc(i))
+#    run.append(pfunc(i))
 
     for platform in cl.get_platforms():
         for device in platform.get_devices():
+            if cl.device_type.to_string(device.type) == 'GPU':
 #            print("Device type:", cl.device_type.to_string(device.type))
-            run.append(clfunc(device, kernel))
+                run.append(clfunc(device, kernel))
 
     with open('run-{}-{}-{}.out'.format(sys.argv[1], sys.argv[2], step), 'a+') as writer:
         string = '{}, {}, {}, {}\n'.format(i, run[0], run[1], run[2])
@@ -75,5 +78,5 @@ for i in range(int(sys.argv[1]), int(sys.argv[2]), step):
         
 end_time = time()
 end_str = strftime("%a, %d %b %Y %H:%M:%S", gmtime())
-print('End time: {}, run from {} to {}'.format(end_str, sys.argv[1], sys.argv[2]))  
+print('End time: {}, run from {} to {} by {}'.format(end_str, sys.argv[1], sys.argv[2]), step)  
 print('Elapsed time in seconds:', end_time - start_time)

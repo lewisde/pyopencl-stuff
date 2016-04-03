@@ -16,11 +16,12 @@ c_result = numpy.empty_like(a)
 kernel1 = "__kernel void sum(__global const float *a,__global const float *b, \
 __global float *c){float div = 2;int loop;int gid = \
 get_global_id(0);for(loop=0; loop<"
-kernel2 = ";loop++){c[gid] = a[gid] + \
+kernel2 = ";loop++){for(int i=0;i<"
+kernel3 = ";i++){c[gid] = a[gid] + \
 b[gid];c[gid] = c[gid]* (a[gid] + b[gid]);c[gid] = c[gid] * \
-(a[gid] / div);}}"
+(a[gid] / div);}}}"
 
-kernel = kernel1 + str(num_range) + kernel2
+kernel = kernel1 + str(num_range) + kernel2 + str(num_range) + kernel3
 
 
 # Speed in normal CPU usage
