@@ -42,15 +42,14 @@ def clfunc(device, kern):
  #   print(elapsed)
     return elapsed
 
-
-start_time = time()
-start_str = strftime("%a, %d %b %Y %H:%M:%S", gmtime())
-print('Start time: {}, run from {} to {} by {}'.format(start_str, sys.argv[1], sys.argv[2]), step)
-
 if len(sys.argv) == 4:
     step = int(sys.argv[3])
 else:
     step = 1
+
+start_time = time()
+start_str = strftime("%a, %d %b %Y %H:%M:%S", gmtime())
+print('Start time: {}, run from {} to {} by {}'.format(start_str, sys.argv[1], sys.argv[2], step))
     
 for i in range(int(sys.argv[1]), int(sys.argv[2]), step):
 #    print(i)
@@ -77,5 +76,5 @@ for i in range(int(sys.argv[1]), int(sys.argv[2]), step):
         
 end_time = time()
 end_str = strftime("%a, %d %b %Y %H:%M:%S", gmtime())
-print('End time: {}, run from {} to {} by {}'.format(end_str, sys.argv[1], sys.argv[2]), step)  
+print('End time: {}, run from {} to {} by {}'.format(end_str, sys.argv[1], sys.argv[2], step))  
 print('Elapsed time in seconds:', end_time - start_time)
