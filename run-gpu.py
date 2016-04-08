@@ -56,6 +56,7 @@ for i in range(int(sys.argv[1]), int(sys.argv[2]), step):
 #    print(i)
     run = []
     a = numpy.random.rand(i).astype(numpy.float32)
+    print(a)
     b = numpy.random.rand(i).astype(numpy.float32)
     c_result = numpy.empty_like(a)
     kernel1 = "__kernel void sum(__global const float *a,__global const float *b, __global float *c){int loop;int gid = get_global_id(0);for(loop=0; loop<"
